@@ -6,12 +6,12 @@ git:
   depth: false
   quiet: true
 
-cache:
-  directories:
-    - $HOME/.ghc
-    - $HOME/.cabal
-    - $HOME/.stack
-    - .stack-work
+  cache:
+    directories:
+      - $HOME/.ghc
+      - $HOME/.cabal
+      - $HOME/.stack
+      - .stack-work
 
 notifications:
   email:
@@ -40,9 +40,12 @@ matrix:
 install:
   - unset CC
   - export PATH=$HOME/.local/bin:/opt/ghc/$GHCVER/bin:$PATH
-  - chmod +x ./script/install-*.sh
+  - chmod +x ./script/install-ghr.sh ./script/install-stack.sh
   - ./script/install-ghr.sh
   - ./script/install-stack.sh
+
+before_script:
+  - chmod +x ./script/deploy-epitech.sh
 
 script:
   - echo "$(ghc --version) [$(ghc --print-project-git-commit-id 2> /dev/null || echo '?')]"
@@ -51,3 +54,4 @@ script:
     set -ex
     stack --no-terminal test --ghc-options="$GHC_OPTIONS"
     set +ex
+  - ./script/deploy-epitech.sh
