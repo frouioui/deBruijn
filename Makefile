@@ -15,6 +15,9 @@ execute_script:
 	cd $(SCRIPT_PATH) && ./$(COMPILE_SCRIPT_FILENAME)
 	cd ..
 
+tests_run:
+	stack test
+
 clean:
 	rm $(PROJECT_NAME) || true
 

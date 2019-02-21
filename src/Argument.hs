@@ -21,31 +21,36 @@ represent the program's arguments
 --}
 data Options = Options
     { helper :: Bool,
-    version :: Bool
+    version :: Bool,
+    flag :: Flag
     } deriving Show
 
 {--
 Declaration of the Flag datatype used for GetOpt
 --}
 data Flag = None
-            | Version
-            | Helper
-    deriving Show
+            | Check
+            | Clean
+            | Unique
+    deriving (Show, Enum)
 
 {--
 Hold the default value of the Options datatype
 --}
 startOption :: Options
 startOption = Options
-    { helper = False,
-    version = False
+    { helper    = False
+    , version   = False
+    , flag      = None
     }
 
 options :: [ OptDescr (Options -> Either String Options) ]
 options =
-    [
-        Option ['v'] ["version"] (NoArg (\opt -> Right opt { version = True } )) "Print the version of the program",
-        Option ['h'] ["help"] (NoArg (\opt -> Right opt { helper = True } )) "Print the usage of the program"
+    [ Option ['c'] ["check"] (NoArg (\opt -> Right opt { flag = Check } )) "Check if a sequence is a de Bruijn sequence"
+    , Option ['u'] ["unique"] (NoArg (\opt -> Right opt { flag = Unique } )) "Check if 2 sequences are distinct de Bruijn sequences"
+    , Option [] ["clean"] (NoArg (\opt -> Right opt { flag = Clean } )) "List cleaning"
+    , Option ['v'] ["version"] (NoArg (\opt -> Right opt { version = True } )) "Print the version of the program"
+    , Option ['h'] ["help"] (NoArg (\opt -> Right opt { helper = True } )) "Print the usage of the program"
     ]
 
 handleArgument :: IO (Either [String] Options)
@@ -54,7 +59,9 @@ handleArgument = do
     case getOpt Permute options argv of
         ([], [], []) -> return $ Left ["no args"]
         (opts, args, []) -> case foldM (flip id) startOption opts of
-            Right opt -> return $ Right opt
+            Right opt -> do
+                print $ args
+                return $ Right opt
         (_, _, err) -> return $ Left err
 
 {--
