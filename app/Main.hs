@@ -7,6 +7,8 @@ import System.Environment
 import System.Exit
 
 import Argument
+import Usage
+import Version
 
 main :: IO ()
 main = do
@@ -14,10 +16,11 @@ main = do
     case args of
         Right opt -> do
             case (helper opt) of
-                True -> do
-                    printUsage
-                    exitWith ExitSuccess
+                True -> printUsageSuccess
                 False -> case (version opt) of
-                    True -> print "version"
-        Left err -> printErrorArgument err
-
+                    True -> printVersionSuccess
+                    False -> putStrLn "the program starts here"
+        Left err -> do
+            case err of
+                ["no args"] -> printUsageError
+                err -> printErrorArgument err

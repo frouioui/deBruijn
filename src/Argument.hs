@@ -3,7 +3,6 @@ module Argument
     Flag(..),
     handleArgument,
     printErrorArgument,
-    printUsage
     ) where
 
 {--
@@ -13,6 +12,8 @@ import Control.Monad
 import System.Environment(getArgs)
 import System.Exit
 import System.Console.GetOpt
+
+import Usage
 
 {--
 Declaration of the Args datatype, this datatype
@@ -51,6 +52,7 @@ handleArgument :: IO (Either [String] Options)
 handleArgument = do
     argv <- getArgs
     case getOpt Permute options argv of
+        ([], [], []) -> return $ Left ["no args"]
         (opts, args, []) -> case foldM (flip id) startOption opts of
             Right opt -> return $ Right opt
         (_, _, err) -> return $ Left err
@@ -62,14 +64,8 @@ printErrorArgument :: [String] -> IO ()
 printErrorArgument err = do
     case err of
         [] -> do
-            printUsage
-            exitWith (ExitFailure 84)
+            putStr "\n"
+            printUsageError
         (err:errs) -> do
             putStr err
             printErrorArgument errs
-
-{--
-Print the usage of the program
---}
-printUsage :: IO ()
-printUsage = putStrLn "deBruijn - ./deBruijn"
