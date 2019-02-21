@@ -19,7 +19,7 @@ main = do
                 True -> printUsageSuccess
                 False -> case (version opt) of
                     True -> printVersionSuccess
-                    False -> putStrLn "the program starts here"
+                    False -> print $ opt
         Left err -> do
             case err of
                 ["no args"] -> printUsageError
