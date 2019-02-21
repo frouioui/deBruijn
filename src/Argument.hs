@@ -1,7 +1,9 @@
 module Argument
     ( Options(..),
     Flag(..),
-    handleArgument
+    handleArgument,
+    printErrorArgument,
+    printUsage
     ) where
 
 {--
@@ -17,7 +19,8 @@ Declaration of the Args datatype, this datatype
 represent the program's arguments
 --}
 data Options = Options
-    { flag :: Flag
+    { helper :: Bool,
+    version :: Bool
     } deriving Show
 
 {--
@@ -33,29 +36,29 @@ Hold the default value of the Options datatype
 --}
 startOption :: Options
 startOption = Options
-    { flag = None
+    { helper = False,
+    version = False
     }
 
-options :: [ OptDescr (Options -> IO Options) ]
+options :: [ OptDescr (Options -> Either String Options) ]
 options =
     [
-        Option ['h'] ["help"] (NoArg (\opt -> return opt { flag = Helper} )) "Print the usage of the program",
-        Option ['v'] ["version"] (NoArg (\opt -> return opt { flag = Version } )) "Print the version of the program"
+        Option ['v'] ["version"] (NoArg (\opt -> Right opt { version = True } )) "Print the version of the program",
+        Option ['h'] ["help"] (NoArg (\opt -> Right opt { helper = True } )) "Print the usage of the program"
     ]
 
-handleArgument :: IO (Either String Options)
+handleArgument :: IO (Either [String] Options)
 handleArgument = do
     argv <- getArgs
     case getOpt Permute options argv of
-        -- If there is no error
         (opts, args, []) -> case foldM (flip id) startOption opts of
-            opt -> return $ Right startOption
-        (_, _, err) -> return $ Left "usage"
+            Right opt -> return $ Right opt
+        (_, _, err) -> return $ Left err
 
 {--
 Print all the given error and finaly print the usage before exiting program
 --}
-printErrorArgument :: [String] -> IO (String)
+printErrorArgument :: [String] -> IO ()
 printErrorArgument err = do
     case err of
         [] -> do
@@ -69,4 +72,4 @@ printErrorArgument err = do
 Print the usage of the program
 --}
 printUsage :: IO ()
-printUsage = putStrLn "usage ici"
+printUsage = putStrLn "deBruijn - ./deBruijn"
