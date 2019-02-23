@@ -19,8 +19,16 @@ main = do
                 True -> printUsageSuccess
                 False -> case (version opt) of
                     True -> printVersionSuccess
-                    False -> print $ opt
+                    False -> handleOption opt
         Left err -> do
             case err of
                 ["no args"] -> printUsageError
                 err -> printErrorArgument err
+
+handleOption :: Options -> IO ()
+handleOption opt = do
+    case (flag opt) of
+        None -> print $ opt
+        Check -> print "check"
+        Clean -> print "clean"
+        Unique -> print "unique"

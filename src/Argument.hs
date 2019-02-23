@@ -69,7 +69,7 @@ handleArgument = do
 
 checkArgument :: Options -> [String] -> IO (Either [String] Options)
 checkArgument opts (x:y:_)
-        | alphabetValid = return $ Right opts { order = read x :: Int , alphabet = y }
+        | alphabetValid = return $ Right opts { order = read x :: Int, alphabet = y }
         | otherwise = return $ Left ["no args"]
         where alphabetValid = (length y > 1 || (length y /= 0 && length y == (read x :: Int))) && singleChar y
 checkArgument opts [x] = return $ Right opts { order = read x :: Int }
