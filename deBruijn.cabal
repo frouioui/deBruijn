@@ -4,26 +4,24 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 30712bce9d359385d1a3da41b6ff1fa5103a0a4373b48d61948ebb67a66bff14
+-- hash: d932bbae0a8494d398c89a0cba52041ac11f80379d321b667a15328f50f3e487
 
 name:           deBruijn
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/frouioui/deBruijn>
-homepage:       https://github.com/frouioui/deBruijn
-bug-reports:    https://github.com/frouioui/deBruijn/issues
+description:    Functional Programming - EPITECH 2019
+homepage:       https://github.com/github.com/frouioui#readme
+bug-reports:    https://github.com/github.com/frouioui/issues
 author:         Florent Poinsard
 maintainer:     florent.poinsard@epitech.eu
-copyright:      2019 Florent Poinsard
+copyright:      2018 Florent Poinsard
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-extra-source-files:
-    README.md
-    ChangeLog.md
 
 source-repository head
   type: git
-  location: https://github.com/frouioui/deBruijn
+  location: https://github.com/github.com/frouioui
+  subdir: deBruijn
 
 library
   exposed-modules:
@@ -39,7 +37,7 @@ library
       base >=4.7 && <5
   default-language: Haskell2010
 
-executable deBruijn-exe
+executable deBruijn
   main-is: Main.hs
   other-modules:
       Paths_deBruijn

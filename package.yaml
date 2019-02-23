@@ -1,0 +1,39 @@
+name:                deBruijn
+version:             0.1.0.0
+github:              "github.com/frouioui/deBruijn"
+license:             BSD3
+author:              "Florent Poinsard"
+maintainer:          "florent.poinsard@epitech.eu"
+copyright:           "2018 Florent Poinsard"
+
+description:         Functional Programming - EPITECH 2019
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  deBruijn:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - deBruijn
+
+tests:
+  deBruijn-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - deBruijn
+      - tasty
+      - tasty-hunit
