@@ -1,0 +1,68 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 30712bce9d359385d1a3da41b6ff1fa5103a0a4373b48d61948ebb67a66bff14
+
+name:           deBruijn
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/frouioui/deBruijn>
+homepage:       https://github.com/frouioui/deBruijn
+bug-reports:    https://github.com/frouioui/deBruijn/issues
+author:         Florent Poinsard
+maintainer:     florent.poinsard@epitech.eu
+copyright:      2019 Florent Poinsard
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/frouioui/deBruijn
+
+library
+  exposed-modules:
+      Argument
+      String
+      Usage
+      Version
+  other-modules:
+      Paths_deBruijn
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable deBruijn-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_deBruijn
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , deBruijn
+  default-language: Haskell2010
+
+test-suite deBruijn-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      StringTest
+      Paths_deBruijn
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , deBruijn
+    , tasty
+    , tasty-hunit
+  default-language: Haskell2010
