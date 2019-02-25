@@ -67,6 +67,9 @@ handleArgument = do
             Right opt -> checkArgument opt args
         (_, _, err) -> return $ Left err
 
+{--
+PROBLEM: Check if the x option is more than 2
+--}
 checkArgument :: Options -> [String] -> IO (Either [String] Options)
 checkArgument opts (x:y:_)
         | alphabetValid = return $ Right opts { order = read x :: Int, alphabet = y }

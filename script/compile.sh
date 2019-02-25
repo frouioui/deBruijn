@@ -8,4 +8,4 @@ stack build
 
 path_exec=`stack path --local-install-root`
 
-cp $path_exec/bin/deBruijn-exe ./deBruijn
+cp $path_exec/bin/deBruijn ./deBruijn

@@ -2,3 +2,4 @@
 deBruijn
 *~
 deBruijn.cabal
+src/testGeneration.hs

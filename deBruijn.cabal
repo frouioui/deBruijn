@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d932bbae0a8494d398c89a0cba52041ac11f80379d321b667a15328f50f3e487
+-- hash: 1c964d9fb3f3f8a8e67f76170f22185473da0ce9cc642b4054ec1cdf18287b9e
 
 name:           deBruijn
 version:        0.1.0.0
@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Argument
+      Generation
       String
       Usage
       Version
