@@ -22,4 +22,10 @@ startDeBruijn order alphabet = DeBruijn
     }
 
 generation :: DeBruijn -> [Int]
-generation debruijn = [0]
+generation debruijn
+        | finish    = finalResult
+        | otherwise = generation debruijn { index = ((index debruijn) - 1) }
+        where
+            finalResult = (result debruijn)
+            finish      = (index debruijn) <= 0
+
