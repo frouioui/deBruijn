@@ -16,7 +16,7 @@ startDeBruijn :: Int -> String -> DeBruijn
 startDeBruijn order alphabet = DeBruijn
     { size          = order
     , str           = alphabet
-    , index         = 1 -- PROBLEM: Maybe set this value to 2?
+    , index         = 1
     , tempResult    = take order (repeat 0)
     , result        = []
     }
@@ -47,21 +47,21 @@ moveIndexDecrementation d
         | conditionDecrementation   = moveIndexDecrementation d { index = (index d) - 1 }
         | otherwise                 = [ d ]
         where
-            conditionDecrementation = (index d) > 0 && ((tempResult d) !! ((index d) - 1)) >= ((size d) - 1)
+            sizeAlphabet            = (length (str d))
+            conditionDecrementation = (index d) > 0 && ((tempResult d) !! ((index d) - 1)) >= (sizeAlphabet - 1)
 
 changeIndexValueToSize :: DeBruijn -> [DeBruijn]
 changeIndexValueToSize d = [d { index = (size d) }]
 
 fillTempResult :: DeBruijn -> Int -> [DeBruijn]
 fillTempResult d i
-        | i < size d    = do
-            let v = [ (tempResult d) !! (i - (index d)) ]
-            let t = take (i + 1) (tempResult d)
-            let a = (init t) ++ v
-            let q = snd (splitArray (i + 1) (tempResult d))
-            a <- [a ++ q]
-            fillTempResult d { tempResult = a } (i + 1)
+        | i < size d    = fillTempResult d { tempResult = newFirstPartArray ++ secondPartArray } (i + 1)
         | otherwise     = [d]
+        where
+            valueToReplace      = ([ (tempResult d) !! (i - (index d)) ])
+            firstPartArray      = (take (i + 1) (tempResult d))
+            newFirstPartArray   = ((init firstPartArray) ++ valueToReplace)
+            secondPartArray     = (snd (splitArray (i + 1) (tempResult d)))
 
 splitArray :: Int -> [Int] -> ([Int], [Int])
 splitArray _ []   = ([], [])

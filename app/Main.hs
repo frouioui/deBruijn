@@ -5,6 +5,7 @@ module Main
 import Argument
 import System.Environment
 import System.Exit
+import Text.Printf
 
 import Argument
 import Usage
@@ -16,6 +17,7 @@ main = do
     args <- Argument.handleArgument
     case args of
         Right opt -> do
+            -- FIXME: Change this ugly way to handle flag
             case (helper opt) of
                 True    -> printUsageSuccess
                 False   -> case (version opt) of
@@ -29,7 +31,11 @@ main = do
 handleOption :: Options -> IO ()
 handleOption opt = do
     case (flag opt) of
-        None        -> do print $ generation (startDeBruijn (order opt) (alphabet opt))
+        None        -> do printResult (generation (startDeBruijn (order opt) (alphabet opt))) (alphabet opt)
         Check       -> print "check"
         Clean       -> print "clean"
         Unique      -> print "unique"
+
+printResult :: [Int] -> String -> IO ()
+printResult [] _        = printf "\n"
+printResult (x:xs) s    = do printf "%c" (s !! x) ; printResult xs s

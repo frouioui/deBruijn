@@ -5,11 +5,10 @@ def debruijn(k, n):
     l = 1
     r = []
     m = 0
-    while m < 3:
+    while True:
         m += 1
         if n % l == 0:
             r.extend(v[0:l])
-            print(r)
         for i in range(l, n):
             v[i] = v[i-l]
         l = n
@@ -20,4 +19,4 @@ def debruijn(k, n):
         v[l-1] += 1
     return r
 
-print(debruijn(2,2))
+print(debruijn(3,3))
