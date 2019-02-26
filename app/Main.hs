@@ -9,6 +9,7 @@ import System.Exit
 import Argument
 import Usage
 import Version
+import Generation
 
 main :: IO ()
 main = do
@@ -16,11 +17,19 @@ main = do
     case args of
         Right opt -> do
             case (helper opt) of
-                True -> printUsageSuccess
-                False -> case (version opt) of
-                    True -> printVersionSuccess
-                    False -> print $ opt
+                True    -> printUsageSuccess
+                False   -> case (version opt) of
+                    True    -> printVersionSuccess
+                    False   -> handleOption opt
         Left err -> do
             case err of
-                ["no args"] -> printUsageError
-                err -> printErrorArgument err
+                ["no args"]     -> printUsageError
+                err             -> printErrorArgument err
+
+handleOption :: Options -> IO ()
+handleOption opt = do
+    case (flag opt) of
+        None        -> do print $ generation (startDeBruijn (order opt) (alphabet opt))
+        Check       -> print "check"
+        Clean       -> print "clean"
+        Unique      -> print "unique"
