@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
 def debruijn(k, n):
-    # Create a 0 array of size n
     v = [0 for _ in range(n)]
     l = 1
     r = []
-    while True:
+    m = 0
+    while m < 3:
+        m += 1
         if n % l == 0:
             r.extend(v[0:l])
+            print(r)
         for i in range(l, n):
             v[i] = v[i-l]
         l = n
@@ -18,4 +20,4 @@ def debruijn(k, n):
         v[l-1] += 1
     return r
 
-print(debruijn(2,3))
+print(debruijn(2,2))
