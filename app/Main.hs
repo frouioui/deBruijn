@@ -11,6 +11,7 @@ import Argument
 import Usage
 import Version
 import Generation
+import Flags
 
 main :: IO ()
 main = do
@@ -32,7 +33,7 @@ handleOption :: Options -> IO ()
 handleOption opt = do
     case (flag opt) of
         None        -> do printResult (generation (startDeBruijn (order opt) (alphabet opt))) (alphabet opt)
-        Check       -> print "check"
+        Check       -> check (order opt) (alphabet opt)
         Clean       -> print "clean"
         Unique      -> print "unique"
 
