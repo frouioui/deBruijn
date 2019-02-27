@@ -7,7 +7,7 @@ module StringTest
 import Test.Tasty
 import Test.Tasty.HUnit
 
-import String
+import Tools
 
 singleCharTest1 :: TestTree
 singleCharTest1 = testCase "Valid string"

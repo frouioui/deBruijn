@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1a3c392bf35b43e0b9a980001263aea304f10c34eac2dcd1b0f56cf6f89bb474
+-- hash: 1234872aebab759290c73bb610c43bf13e1a31270c62473000ebe5f00a0ac0f7
 
 name:           deBruijn
 version:        0.1.0.0
@@ -28,7 +28,7 @@ library
       Argument
       Flags
       Generation
-      String
+      Tools
       Usage
       Version
   other-modules:

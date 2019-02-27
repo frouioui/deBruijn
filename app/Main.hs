@@ -34,7 +34,7 @@ handleOption opt = do
     case (flag opt) of
         None        -> do printResult (generation (startDeBruijn (order opt) (alphabet opt))) (alphabet opt)
         Check       -> check (order opt) (alphabet opt)
-        Clean       -> print "clean"
+        Clean       -> clean (order opt) (alphabet opt)
         Unique      -> unique (order opt) (alphabet opt)
 
 printResult :: [Int] -> String -> IO ()

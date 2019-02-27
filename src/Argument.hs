@@ -14,7 +14,7 @@ import System.Exit
 import System.Console.GetOpt
 
 import Usage
-import String
+import Tools
 
 {--
 Declaration of the Args datatype, this datatype
