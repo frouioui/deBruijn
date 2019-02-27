@@ -3,9 +3,9 @@ module Tools
     , checkDeBruijn
     , areUniques
     , isSimilar
-    , keepDeBruijn
     , checkLine
     , checkLines
+    , filterSequence
     ) where
 
 import Prelude
@@ -24,26 +24,23 @@ singleChar xs = checkSingle (sort xs) (drop 1 (sort xs))
                 False   -> False
 
 areUniques :: (Ord a) => [a] -> Bool
-areUniques arr = checkUnique (sort arr) (drop 1 (sort arr))
+areUniques arr = unique (sort arr) (drop 1 (sort arr))
     where
-        checkUnique [] _            = True
-        checkUnique _ []            = True
-        checkUnique (x:xs) (y:ys)   = do
+        unique [] _            = True
+        unique _ []            = True
+        unique (x:xs) (y:ys)   = do
             case x /= y of
-                True    -> checkUnique xs ys
+                True    -> unique xs ys
                 False   -> False
 
-rotateArray :: Int -> [a] -> [a]
-rotateArray i arr
-        | length arr == 0   = []
-        | i == 0            = arr
-        | otherwise         = rotateArray (i - 1) ((last arr):(init arr))
+rotate :: Int -> [a] -> [a]
+rotate _ [] = []
+rotate 0 xs = xs
+rotate n xs = rotate (n - 1) (last xs : init xs)
 
 isSimilar :: (Eq a) => [a] -> [a] -> Bool
-isSimilar [] [] = True
-isSimilar (x:xs) (y:ys)
-        | x == y    = isSimilar xs ys
-        | otherwise = False
+isSimilar [] []         = True
+isSimilar (xs) (ys) = foldr (||) False [ rotate x xs == ys | x <- [0..(length xs)] ]
 
 getWordsInArray :: Int -> [a] -> [[a]]
 getWordsInArray size xs = getEachWords (xs ++ take (size - 1) xs) size
@@ -59,13 +56,6 @@ getStringFromGeneration arr alphabet = [ alphabet !! x | x <- arr]
 checkDeBruijn :: Int -> String -> String -> Bool
 checkDeBruijn n str line = (sort (getWordsInArray n (getStringFromGeneration (generation (startDeBruijn n str)) str))) == (sort (getWordsInArray n line))
 
-keepDeBruijn :: [String] -> Int -> String -> [String] -> [String]
-keepDeBruijn [] _ _ res     = res
-keepDeBruijn (x:xs) n s res = do
-        case (checkDeBruijn n s x) of
-            True    -> keepDeBruijn xs n s (res ++ [x])
-            False   -> keepDeBruijn xs n s res
-
 isInAlphabet :: Char -> String -> Bool
 isInAlphabet _ []     = False
 isInAlphabet c (x:xs) = do
@@ -73,6 +63,9 @@ isInAlphabet c (x:xs) = do
         True    -> True
         False   -> isInAlphabet c xs
 
+{--
+Line parser
+--}
 checkLine :: String -> String -> IO ()
 checkLine [] s = putStr ""
 checkLine (x:xs) s
@@ -82,3 +75,12 @@ checkLine (x:xs) s
 checkLines :: [String] -> String -> IO ()
 checkLines [] _     = putStr ""
 checkLines (x:xs) s = do checkLine x s ; checkLines xs s
+
+
+{--
+Filter
+--}
+filterSequence :: (a -> a -> Bool) -> [a] -> [a]
+filterSequence _ []        = []
+filterSequence _ [x]       = [x]
+filterSequence f (x:xs)    = x : [ y | y <- filterSequence f xs, f y x ]

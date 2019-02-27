@@ -26,7 +26,12 @@ unique n s = do
         False   -> putStrLn "KO"
 
 clean :: Int -> String -> IO ()
-clean n s = do lines <- (getAllLines "END") ; checkLines lines s ; displayLines lines
+clean n s = do 
+    lines <- getAllLines "END"
+    checkLines lines s
+    putStr $ foldr (\x y -> x ++ "\n" ++ y) "" (filterNotDeBruijn $ filterSequence (\x y -> not $ isSimilar x y) lines)
+    where
+        filterNotDeBruijn xs = [ x | x <- xs, checkDeBruijn n s x ]
 
 getAllLines :: String -> IO ([String])
 getAllLines end = do
