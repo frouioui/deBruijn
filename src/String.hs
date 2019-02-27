@@ -1,11 +1,14 @@
 module String
     ( singleChar
     , isDeBruijnSequence
+    , areUniques
+    , areEquivalents
     ) where
 
 import Data.List
 import Prelude hiding(sequence, words)
 import Generation
+import Data.List hiding(words)
 
 singleChar :: String -> Bool
 singleChar xs = checkSingle sorted (drop 1 sorted)
@@ -14,6 +17,26 @@ singleChar xs = checkSingle sorted (drop 1 sorted)
         checkSingle (x:xs') (y:ys)  = if x /= y then checkSingle xs' ys else False
         checkSingle [] _            = True
         checkSingle _ []            = True
+
+rotate :: Int -> [a] -> [a]
+rotate _ [] = []
+rotate 0 xs = xs
+rotate n xs = rotate (n - 1) (last xs : init xs)
+
+areUniques :: (Ord a) => [a] -> Bool
+areUniques xs = checkUnique (sort xs) (drop 1 sorted)
+
+checkUnique :: [a] -> [a] -> Bool
+checkUnique [] _            = True
+checkUnique _ []            = True
+checkUnique (x:xs) (y:ys)   = do
+        case x /= y of
+            True    -> uniqueCheck    xs ys
+            False   -> return False
+
+areEquivalents :: (Eq a) => [a] -> [a] -> Bool
+areEquivalents [] [] = True
+areEquivalents xs ys = foldr (||) False [ rotate x xs == ys | x <- [0..(length xs)] ]
 
 getWords :: Int -> [a] -> [[a]]
 getWords size xs = getEachWords (xs ++ take (size - 1) xs) size

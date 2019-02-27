@@ -35,7 +35,7 @@ handleOption opt = do
         None        -> do printResult (generation (startDeBruijn (order opt) (alphabet opt))) (alphabet opt)
         Check       -> check (order opt) (alphabet opt)
         Clean       -> print "clean"
-        Unique      -> print "unique"
+        Unique      -> unique (order opt) (alphabet opt)
 
 printResult :: [Int] -> String -> IO ()
 printResult [] _        = printf "\n"
