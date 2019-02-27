@@ -31,7 +31,7 @@ checkUnique [] _            = True
 checkUnique _ []            = True
 checkUnique (x:xs) (y:ys)   = do
         case x /= y of
-            True    -> uniqueCheck    xs ys
+            True    -> checkUnique xs ys
             False   -> return False
 
 areEquivalents :: (Eq a) => [a] -> [a] -> Bool
