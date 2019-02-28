@@ -5,6 +5,8 @@ module Tools
     , checkLine
     , checkLines
     , filterSequence
+    , rotate
+    , checkIfArrayContainsTrue
     ) where
 
 import Prelude

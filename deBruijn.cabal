@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1234872aebab759290c73bb610c43bf13e1a31270c62473000ebe5f00a0ac0f7
+-- hash: 59f2a48a13fb42480bfba910b56c39522302693c0d34b02c1cdeb5fec2d5745b
 
 name:           deBruijn
 version:        0.1.0.0
@@ -55,7 +55,7 @@ test-suite deBruijn-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      StringTest
+      ToolsTest
       Paths_deBruijn
   hs-source-dirs:
       test

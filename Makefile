@@ -18,6 +18,9 @@ execute_script:
 tests_run:
 	stack test
 
+tests_run_coverage:
+	stack test --coverage
+
 clean:
 	rm $(PROJECT_NAME) || true
 
