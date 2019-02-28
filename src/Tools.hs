@@ -1,7 +1,6 @@
 module Tools
     ( singleChar
     , checkDeBruijn
-    , areUniques
     , isSimilar
     , checkLine
     , checkLines
@@ -13,6 +12,9 @@ import Generation
 import Data.List
 import System.Exit
 
+{--
+Check if every char in a string are unique
+--}
 singleChar :: String -> Bool
 singleChar xs = checkSingle (sort xs) (drop 1 (sort xs))
     where
@@ -23,39 +25,60 @@ singleChar xs = checkSingle (sort xs) (drop 1 (sort xs))
                 True    -> checkSingle xs' ys
                 False   -> False
 
-areUniques :: (Ord a) => [a] -> Bool
-areUniques arr = unique (sort arr) (drop 1 (sort arr))
-    where
-        unique [] _            = True
-        unique _ []            = True
-        unique (x:xs) (y:ys)   = do
-            case x /= y of
-                True    -> unique xs ys
-                False   -> False
-
+{--
+Move the n index from the tail to the head of the list and return the list
+--}
 rotate :: Int -> [a] -> [a]
 rotate _ [] = []
 rotate 0 xs = xs
 rotate n xs = rotate (n - 1) (last xs : init xs)
 
+{--
+Check if 2 list are similiar in both ways (by rotating them)
+--}
 isSimilar :: (Eq a) => [a] -> [a] -> Bool
 isSimilar [] []         = True
-isSimilar (xs) (ys) = foldr (||) False [ rotate x xs == ys | x <- [0..(length xs)] ]
+isSimilar (xs) (ys)     = checkIfArrayContainsTrue [ rotate x xs == ys | x <- [0..(length xs)] ]
 
+{--
+check if the given array of Bool contains at least one True value
+--}
+checkIfArrayContainsTrue :: [Bool] -> Bool
+checkIfArrayContainsTrue []     = False
+checkIfArrayContainsTrue (x:xs)
+            | x         = True
+            | otherwise = checkIfArrayContainsTrue xs
+
+{--
+Get all the words of size n in a list
+--}
 getWordsInArray :: Int -> [a] -> [[a]]
 getWordsInArray size xs = getEachWords (xs ++ take (size - 1) xs) size
 
+{--
+Return an array containing all the substring of size n
+--}
 getEachWords :: [a] -> Int -> [[a]]
 getEachWords arr size
         | length arr == size    = [take size arr]
         | otherwise             = take size arr : getEachWords (drop 1 arr) size
 
+{--
+Transform an array of Int into a String, each index of the [Int] correpond
+to the index in the given alphabet
+--}
 getStringFromGeneration :: [Int] -> String -> String
 getStringFromGeneration arr alphabet = [ alphabet !! x | x <- arr]
 
+{--
+Check if the given sequence is a debruijn sequence
+--}
 checkDeBruijn :: Int -> String -> String -> Bool
 checkDeBruijn n str line = (sort (getWordsInArray n (getStringFromGeneration (generation (startDeBruijn n str)) str))) == (sort (getWordsInArray n line))
 
+{--
+Check if the given char is part of the given alphabet
+--}
 isInAlphabet :: Char -> String -> Bool
 isInAlphabet _ []     = False
 isInAlphabet c (x:xs) = do
