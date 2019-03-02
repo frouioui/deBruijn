@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 59f2a48a13fb42480bfba910b56c39522302693c0d34b02c1cdeb5fec2d5745b
+-- hash: 2c8b4169ba083073bd26712e675cc420b37bab3718437315d209bb3624ba3195
 
 name:           deBruijn
 version:        0.1.0.0
@@ -65,4 +65,6 @@ test-suite deBruijn-test
     , deBruijn
     , tasty
     , tasty-hunit
+    , tasty-quickcheck
+    , tasty-smallcheck
   default-language: Haskell2010

@@ -5,6 +5,7 @@ module Flags
     ) where
 
 import Prelude
+import System.Exit
 
 import Tools
 
@@ -25,7 +26,9 @@ Check if the given 2 lines are unique
 unique :: Int -> String -> IO ()
 unique n s = do
     line1 <- getLine
+    checkLineIsEmpty line1
     line2 <- getLine
+    checkLineIsEmpty line2
     checkLines ([line1] ++ [line2]) s
     case ((checkDeBruijn n s line1) && (checkDeBruijn n s line2) && (not $ isSimilar line1 line2)) of
         True    -> putStrLn "OK"
@@ -58,6 +61,7 @@ return the array of stored string
 getLines :: [String] -> String -> IO ([String])
 getLines arr end = do
     line <- getLine
+    checkLineIsEmpty line
     case line == end of
         True    -> return arr
         False   -> getLines (arr ++ [line]) end
@@ -68,3 +72,8 @@ Display the whole array of string
 displayLines :: [String] -> IO ()
 displayLines []     = putStr ""
 displayLines (x:xs) = do putStrLn x ; displayLines xs
+
+
+checkLineIsEmpty :: String -> IO ()
+checkLineIsEmpty "" = exitWith (ExitFailure 84)
+checkLineIsEmpty l  = putStr ""

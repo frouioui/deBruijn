@@ -37,3 +37,5 @@ tests:
       - deBruijn
       - tasty
       - tasty-hunit
+      - tasty-smallcheck
+      - tasty-quickcheck

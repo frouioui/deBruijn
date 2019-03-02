@@ -7,6 +7,9 @@ module Tools
     , filterSequence
     , rotate
     , checkIfArrayContainsTrue
+    , getWordsInArray
+    , getStringFromGeneration
+    , isInAlphabet
     ) where
 
 import Prelude
@@ -52,13 +55,15 @@ checkIfArrayContainsTrue (x:xs)
             | otherwise = checkIfArrayContainsTrue xs
 
 {--
-Get all the words of size n in a list
+Return a list continaing lists of size n
+EXAMPLE:
+Input = 2 , [1, 2, 3, 4]
+Output = [[1, 2], [2, 3], [3, 4], [4, 1]]
 --}
 getWordsInArray :: Int -> [a] -> [[a]]
 getWordsInArray size xs = getEachWords (xs ++ take (size - 1) xs) size
 
 {--
-Return an array containing all the substring of size n
 --}
 getEachWords :: [a] -> Int -> [[a]]
 getEachWords arr size
